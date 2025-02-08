@@ -70,13 +70,13 @@ Instead, you can add this table to your database manually:
 ```sql
 CREATE TABLE IF NOT EXISTS "UserSession" (
   "id" varchar(255) NOT NULL PRIMARY KEY,
-  "shop" varchar(255) NOT NULL,
+  "shop" TEXT NOT NULL,
   "state" varchar(255) NOT NULL,
   "isOnline" boolean NOT NULL,
-  "scope" varchar(255),
+  "scope" TEXT,
   "expires" integer,
-  "onlineAccessInfo" varchar(255),
-  "accessToken" varchar(255)
+  "onlineAccessInfo" TEXT,
+  "accessToken" TEXT
 );
 ```
 
@@ -84,6 +84,37 @@ We recommend using a migration tool such as [goose](https://github.com/pressly/g
 
 ### Option to encrypt access token
 
-While Shopify recommends to encrypt the db at rest, we still believe that it is bad for the merchants' privacy to encrypt their access token in the db.
+Shopify recommends encrypting the database at rest; however, we believe that storing merchants' access tokens in plain text within the database poses significant privacy risks.
 
-Shopify's adapter does not encrypt the session token, with this adapter you can configure a signature key for symetrical client-side encryption of the token. That means that now the token will be stored encrypted in the db.
+Unlike Shopify's default adapter, which does not encrypt session tokens, this adapter allows you to configure a signature key for [symmetrical client-side encryption](https://en.wikipedia.org/wiki/Symmetric-key_algorithm). As a result, access tokens are securely encrypted before being stored in the database.
+
+#### Encrypt access token
+
+Be aware that this should **not** be done on an existing production database without a proper migration.
+
+1. **Generate a secret key**, it should be a 32 bit key. On Linux, you can run in the terminal `openssl rand -hex 32`. This key should be kept **secret** and **not be lost**, as **it is essential for encrypting and decrypting your data**. You can store this key in an env variable or in a vault.
+
+To use the `SymmetricEncryptor` for encrypting and decrypting data, follow the example below:
+
+```typescript
+import {
+  SymmetricEncryptor,
+  NativePostgresConnection,
+  AdaptablePostgresStorage
+} from '@bazaarforge/shopify-app-session-storage-adaptable-postgresql';
+import crypto from 'crypto';
+
+// The encryption key that you generated in the previous step
+const key = process.env.ENCRYPTION_KEY;
+
+// Create an instance of SymmetricEncryptor
+const encryptor = new SymmetricEncryptor({ key });
+
+// Create an instance of AdaptablePostgresStorage using the encryptor
+const storage = new AdaptablePostgresStorage(
+  new NativePostgresConnection("postgres://..."),
+  {
+    encryptor
+  }
+);
+```
