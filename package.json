@@ -1,0 +1,89 @@
+{
+  "name": "@bazaarforge/shopify-app-session-storage-adaptable-postgresql",
+  "version": "1.0.0-alpha.1",
+  "description": "Enhanced Shopify App Session Storage for PostgreSQL",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bazaarforge/shopify-app-session-storage-adaptable-postgresql.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bazaarforge/shopify-app-session-storage-adaptable-postgresql/issues"
+  },
+  "keywords": [
+    "shopify",
+    "node",
+    "app",
+    "graphql",
+    "rest",
+    "webhook",
+    "Admin API",
+    "Storefront API",
+    "postgresql",
+    "PostgreSQL",
+    "session storage",
+    "pg-promise"
+  ],
+  "homepage": "https://github.com/bazaarforge/shopify-app-session-storage-adaptable-postgresql",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@shopify/shopify-api": "^11.8.1",
+    "@shopify/shopify-app-session-storage": "^3.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "eslint": "^9.20.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "pg": "^8.12.0",
+    "pg-connection-string": "^2.7.0",
+    "pg-promise": "^11.9.0",
+    "prettier": "^3.4.2",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5",
+    "vitest-fetch-mock": "^0.4.3"
+  },
+  "peerDependencies": {
+    "pg": "^8.12.0",
+    "pg-connection-string": "^2.7.0",
+    "pg-promise": "^11.9.0"
+  },
+  "peerDependenciesMeta": {
+    "pg": {
+      "optional": true
+    },
+    "pg-connection-string": {
+      "optional": true
+    },
+    "pg-promise": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+}
