@@ -1,6 +1,6 @@
 {
   "name": "@bazaarforge/shopify-app-session-storage-adaptable-postgresql",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Enhanced Shopify App Session Storage for PostgreSQL",
   "repository": {
     "type": "git",
